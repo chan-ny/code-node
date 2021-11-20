@@ -1,0 +1,37 @@
+const Multer = require("multer");
+
+let storage = Multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, "./public/storage/uploads");
+    },
+    filename: function(req, file, callback) {
+        const uniqueSuffix =
+            Date.now() + "-" + Math.round(Math.random() * 100) + ".jpg";
+        callback(null, file.fieldname + "-" + uniqueSuffix);
+    }
+});
+
+let uploadImageArray = Multer({ storage: storage }).array("image", 5);
+
+let uploadSingle = Multer({ storage: storage }).single("image");
+
+module.exports = {
+    UploadPhotoMulti(req, res) {
+        uploadImageArray(req, res, function(err) {
+            if (err) {
+                return res.end("Error Upload file....");
+            } else {
+                res.end("File upload complete ..");
+            }
+        });
+    },
+    UploadPhotoSingle(req, res) {
+        uploadSingle(req, res, function(err) {
+            if (err) {
+                res.end("Error Oplad File single...");
+            } else {
+                res.end("Upload file Single complete");
+            }
+        });
+    }
+};
