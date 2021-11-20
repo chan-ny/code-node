@@ -4,3 +4,9 @@ module.exports = app => {
     app.post("/upload_multi",Controller.method...);
 
 };
+
+
+///use for file server.js
+  
+  
+  require("./routes/router")(app);
